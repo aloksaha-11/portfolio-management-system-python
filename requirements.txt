@@ -1,0 +1,8 @@
+Flask>=3.0,<4
+PyMySQL>=1.1,<2
+cryptography>=42            # needed by PyMySQL for MySQL 8 caching_sha2_password logins
+argon2-cffi>=23.1,<26
+APScheduler>=3.10,<4
+waitress>=3.0,<4
+tzdata>=2024.1              # time-zone data (Asia/Kolkata) on Windows
+pytest>=8                   # only for running the tests

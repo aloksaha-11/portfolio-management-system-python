@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <meta name="description" content="Your Portfolio Rebalancing System portfolio overview.">
+  <title>Your portfolio · Portfolio Rebalancing System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/dashboard.css">
+  <link rel="stylesheet" href="assets/dashboard-market.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Portfolio Rebalancing System home"><span class="brand-mark">f</span><span>Portfolio Rebalancing System</span></a>
+    <div class="account-actions"><span class="account-avatar" aria-hidden="true">f</span><span id="account-email" class="account-email">Loading account…</span><button id="logout-button" class="logout-button" type="button">Logout</button></div>
+  </header>
+
+  <main class="dashboard-shell">
+    <section class="welcome-row welcome-merged" aria-labelledby="welcome-heading">
+      <div class="welcome-top">
+        <div><p class="eyebrow">YOUR MONEY, IN FOCUS</p><h1 id="welcome-heading">Good to have you here<span>.</span></h1><p class="welcome-copy">Your investments have a home. Start with a portfolio and build a clearer view over time.</p></div>
+        <div class="welcome-art" aria-hidden="true"><svg viewBox="0 0 180 120"><path d="M16 95h150M25 82l32-25 23 13 34-38 24 13 25-24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M132 21h31v31" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="57" cy="57" r="5" fill="#c5e2cf"/><circle cx="114" cy="32" r="5" fill="#c5e2cf"/></svg></div>
+      </div>
+      <div class="portfolios-card welcome-portfolios">
+        <div class="section-heading"><div><p class="eyebrow">KEEP EVERYTHING TOGETHER</p><h2 id="portfolio-heading">Your portfolios</h2></div></div>
+        <form id="create-form" class="create-form" hidden>
+          <label for="portfolio-name">Give your portfolio a name</label><div class="create-controls"><input id="portfolio-name" name="name" maxlength="100" placeholder="For example, Long-term investments" required><button class="primary-button" type="submit">Create portfolio</button><button class="cancel-button" id="cancel-create" type="button">Cancel</button></div>
+        </form>
+        <p id="dashboard-message" class="dashboard-message" role="status" aria-live="polite"></p>
+        <div class="portfolios-row">
+          <div id="portfolio-list" class="portfolio-grid"></div>
+          <div class="portfolio-actions"><div id="portfolio-select-wrap" class="portfolio-select-wrap" hidden><label for="existing-portfolio">Select an existing portfolio</label><select id="existing-portfolio"><option value="">Choose a portfolio</option></select></div><button class="primary-button" id="show-create" type="button"><span aria-hidden="true">＋</span> New portfolio</button></div>
+        </div>
+        <div id="empty-state" class="empty-state" hidden><div class="empty-illustration" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="9" y="13" width="46" height="39" rx="8"/><path d="M20 26h24M20 34h16M20 42h10"/></svg></div><h3>Your first portfolio starts here</h3><p>Create a portfolio to organize the investments you want to follow.</p><button class="primary-button" id="empty-create" type="button">Create your first portfolio</button></div>
+      </div>
+    </section>
+
+    <section class="stat-grid" aria-label="Portfolio summary">
+      <article class="stat-card"><span class="stat-icon icon-green" aria-hidden="true">↗</span><span class="stat-label">PORTFOLIOS</span><strong id="portfolio-count">—</strong><span class="stat-caption">Your organized investment spaces</span></article>
+      <article class="stat-card"><span class="stat-icon icon-blue" aria-hidden="true">▤</span><span class="stat-label">INVESTMENTS</span><strong id="holding-count">—</strong><span class="stat-caption">Holdings recorded across portfolios</span></article>
+      <article class="stat-card"><span class="stat-icon icon-green" aria-hidden="true">₹</span><span class="stat-label">LATEST MARKET VALUE</span><strong id="market-value">—</strong><span id="market-value-caption" class="stat-caption">Using the latest available BSE close</span></article>
+      <article class="stat-card"><span class="stat-icon icon-gold" aria-hidden="true">₹</span><span class="stat-label">TOTAL COST BASIS</span><strong id="cost-basis">—</strong><span class="stat-caption">Based on your recorded purchase prices</span></article>
+    </section>
+
+    <section class="content-card bse-data-card" aria-labelledby="bse-data-heading">
+      <div class="section-heading"><div class="bse-heading-group"><p class="eyebrow">BSE END-OF-DAY DATA</p><div class="bse-data-title-row"><h2 id="bse-data-heading">Market prices:</h2><select id="bse-date-select" class="bse-date-select" aria-label="Select BSE trade date"><option value="">Loading dates…</option></select></div></div><div class="bse-data-tools"><input id="bse-data-search" class="bse-data-search" type="search" placeholder="Search company or symbol" aria-label="Search BSE company or symbol"><span id="bse-data-count" class="price-as-of">Loading prices…</span></div></div>
+      
+      <!-- BSE Daily Trend Analysis Panel -->
+      <div id="bse-trend-panel" class="bse-trend-panel">
+        <div class="bse-trend-header">
+          <div class="bse-trend-title-group">
+            <span class="bse-trend-eyebrow">DAILY TREND ANALYSIS</span>
+            <div id="bse-trend-badge" class="bse-trend-badge down">
+              <span id="bse-trend-icon" aria-hidden="true">▼</span>
+              <span id="bse-trend-text">Calculating trend…</span>
+            </div>
+          </div>
+          <div class="bse-trend-stats">
+            <span>Profit: <strong id="bse-stat-advances" class="bse-trend-stat-val up">—</strong></span>
+            <span>Loss: <strong id="bse-stat-declines" class="bse-trend-stat-val down">—</strong></span>
+            <span>Volume: <strong id="bse-stat-volume" class="bse-trend-stat-val">—</strong></span>
+          </div>
+        </div>
+        <div class="bse-breadth-bar-wrap">
+          <span class="bse-breadth-caption">MARKET BREADTH · all BSE securities</span>
+          <div class="bse-breadth-bar-labels">
+            <span id="bse-breadth-up-label" class="up-label">▲ Profit</span>
+            <span id="bse-breadth-down-label" class="down-label">▼ Loss</span>
+          </div>
+          <div class="bse-breadth-bar" role="progressbar" aria-label="Market breadth: BSE securities that rose vs fell">
+            <div id="bse-seg-up" class="bse-breadth-seg-up" style="width: 50%" title="Profit"></div>
+            <div id="bse-seg-same" class="bse-breadth-seg-same" style="width: 5%" title="Unchanged"></div>
+            <div id="bse-seg-down" class="bse-breadth-seg-down" style="width: 45%" title="Loss"></div>
+          </div>
+        </div>
+        <div class="bse-trend-movers">
+          <span class="bse-trend-movers-title">Key Movers:</span>
+          <div id="bse-trend-movers-list" class="bse-trend-movers-list"></div>
+        </div>
+
+        <!-- Market Downturn Suggestion Advisory -->
+        <div id="bse-trend-suggestion" class="bse-trend-suggestion">
+          <div class="bse-suggestion-header">
+            <span class="bse-suggestion-icon" aria-hidden="true">💡</span>
+            <div class="bse-suggestion-content">
+              <strong>Market Downturn Advisory:</strong>
+              <span>If BSE is trending down for last 3 days, then consider investing your funds into below mentioned alternatives:</span>
+            </div>
+          </div>
+          <div class="bse-suggestion-tags">
+            <button type="button" class="bse-tag-btn" data-type="Bonds">🏛️ Bonds</button>
+            <button type="button" class="bse-tag-btn" data-type="Commodities-Gold">🪙 Commodities-Gold</button>
+            <button type="button" class="bse-tag-btn" data-type="Commodities-Silver">🥈 Commodities-Silver</button>
+            <button type="button" class="bse-tag-btn" data-type="Mutual Funds">📈 Mutual Funds</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="bse-data-message" class="dashboard-message" role="status" aria-live="polite">Loading BSE data…</p>
+      <div class="bse-data-scroll"><table class="bse-data-table"><thead><tr><th>Company / Symbol</th><th>Security code</th><th>Series</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Previous close</th><th>Volume</th></tr></thead><tbody id="bse-data-body"></tbody></table></div>
+    </section>
+
+    <footer class="dashboard-footer"><span>© 2026 Portfolio Rebalancing System</span><span>A clearer view of what you own.</span></footer>
+  </main>
+
+  <script src="assets/common.js" defer></script>
+  <script src="assets/dashboard.js" defer></script>
+</body>
+</html>
